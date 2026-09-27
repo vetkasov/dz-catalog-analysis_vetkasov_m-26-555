@@ -205,6 +205,22 @@ def iter_high_rated(movies: list[dict], min_rating=8.0):
             yield movie
 
 
+def total_duration_above_rating(movies: list[dict], min_rating=7) -> int:
+    """Get total duration for movies above rating"""
+    total_duration = sum(
+        movie["duration_min"]
+        for movie in movies
+        if movie["rating"] > min_rating
+    )
+    return total_duration
+
+
+def print_high_rated_report(movies: list[dict]) -> None:
+    """Print high rated movies report"""
+    for movie in iter_high_rated(movies):
+        print(format_report_line(movie))
+
+
 def build_report(movies: list[dict]) -> None:
     """Print catalog report"""
     age_stats = catalog_age_stats(movies)
