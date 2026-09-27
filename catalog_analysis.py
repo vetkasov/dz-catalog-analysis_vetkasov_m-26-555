@@ -2,8 +2,7 @@ import math
 
 movies = [
     {"title": "The Dune Chronicles", "year": 2021, "genres": {"sci-fi", "drama"},
-     "rating": 8.6, "duration_min": 155,
-     "actors": ["T. Chalamet", "R. Ferguson", "O. Isaac"]},
+     "rating": 8.6, "duration_min": 155, "actors": ["T. Chalamet", "R. Ferguson", "O. Isaac"]},
     {"title": "Kitchen Stories", "year": 2019, "genres": {"comedy", "drama"},
      "rating": 7.1, "duration_min": 98, "actors": ["A. Novak", "M. Ferguson"]},
     {"title": "silent hours", "year": 2016, "genres": {"thriller", "drama"},
@@ -67,6 +66,22 @@ def decade_label(year: int) -> str:
             return "недавние"
         case _:
             return "старые"
+
+
+for movie in movies:
+    if "comedy" not in movie["genres"]:
+        print(movie["title"])
+    continue
+
+i = 0
+while i < len(movies):
+    if movies[i]["rating"] >= 9:
+        print(movies[i]["title"])
+        break
+    i += 1
+else:
+    print("Шедевров не найдено")
+
 
 def count_long_movies(movies: list[dict], threshold = 120) -> int:
     """Count movies longer threshold"""
@@ -212,6 +227,13 @@ def build_report(movies: list[dict]) -> None:
 
 
 def main():
+    print(average_rating(movies))
+    print(catalog_age_stats(movies))
+    print(duration_in_hours(movies[0]["duration_min"]))
+    print(rating_tier(movies[7]["rating"]))
+    print(decade_label(movies[7]["year"]))
+    print(count_long_movies(movies))
+    print()
     build_report(movies)
 
 
