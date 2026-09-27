@@ -1,4 +1,5 @@
 import math
+
 movies = [
     {"title": "The Dune Chronicles", "year": 2021, "genres": {"sci-fi", "drama"},
      "rating": 8.6, "duration_min": 155, "actors": ["T. Chalamet", "R. Ferguson", "O. Isaac"]},
@@ -23,21 +24,45 @@ movies = [
 ]
 
 def average_rating(movies: list[dict]) -> float:
+    """Calculation mean rating for provided movies"""
     ratings = [movie["rating"] for movie in movies]
     return round(sum(ratings) / len(ratings), 1)
 
 
 def catalog_age_stats(movies: list[dict], current_year=2026) -> tuple:
+    """Get years data for provided movies"""
     years = [current_year - movie["year"] for movie in movies if movie["year"] < current_year]
     min_year = min(years)
     max_year = max(years)
     mean_year = math.ceil(round(sum(years) / len(years), 1))
     return (max_year, min_year, mean_year)
 
-def duration_in_hours(movies: list[dict]) -> list[str]:
-    durations = [movie["duration_min"] for movie in movies]
-    durations_list = [f"{duration // 60}ч {duration % 60}м" for duration in durations]
-    return durations_list
+
+def duration_in_hours(minutes: int) -> str:
+    """Get minutes into string format ##ч ##м"""
+    duration = f"{minutes // 60}ч {minutes % 60}м"
+    return duration
+
+def rating_tier(rating: float) -> str:
+    """Return movie category"""
+    if rating >= 9:
+        return "шедевр"
+    elif rating >= 7:
+        return "хорошо"
+    elif rating >= 5:
+        return "средне"
+    else:
+        return "слабо"
+
+def dacade_label(year: int) -> str:
+    """Return movie label"""
+    match year:
+        case _ if year >= 2020:
+            return "новые"
+        case _ if year >= 2015:
+            return "недавние"
+        case _:
+            return "старые"
 
 def main():
     print("Hello from university!")
