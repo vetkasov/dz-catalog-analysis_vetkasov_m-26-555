@@ -113,22 +113,22 @@ def format_report_line(movie: dict) -> str:
     return report_line
 
 
-# def titles_sorted_by_rating(movies: list[dict]) -> list[str]:
-#     """Get movie titles sorted by rating"""
-#     sorted_movies = sorted(movies, key=lambda movie: movie["rating"], reverse=True)
-#     titles = []
-#     for movie in sorted_movies:
-#         titles.append(movie["title"])
-#     return titles
+def titles_sorted_by_rating(movies: list[dict]) -> list[str]:
+    """Get movie titles sorted by rating"""
+    sorted_movies = sorted(movies, key=lambda movie: movie["rating"], reverse=True)
+    titles = []
+    for movie in sorted_movies:
+        titles.append(movie["title"])
+    return titles
 
 
-# def top_n_by_rating(movies: list[dict], n=3) -> list[tuple]:
-#     """Get top movies by rating"""
-#     sorted_movies = sorted(movies, key=lambda movie: movie["rating"], reverse=True)
-#     top_movies = []
-#     for movie in sorted_movies[:n]:
-#         top_movies.append((movie["title"], movie["rating"]))
-#     return top_movies
+def top_n_by_rating(movies: list[dict], n=3) -> list[tuple]:
+    """Get top movies by rating"""
+    sorted_movies = sorted(movies, key=lambda movie: movie["rating"], reverse=True)
+    top_movies = []
+    for movie in sorted_movies[:n]:
+        top_movies.append((movie["title"], movie["rating"]))
+    return top_movies
 
 
 def main():
