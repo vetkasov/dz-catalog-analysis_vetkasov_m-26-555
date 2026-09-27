@@ -2,7 +2,8 @@ import math
 
 movies = [
     {"title": "The Dune Chronicles", "year": 2021, "genres": {"sci-fi", "drama"},
-     "rating": 8.6, "duration_min": 155, "actors": ["T. Chalamet", "R. Ferguson", "O. Isaac"]},
+     "rating": 8.6, "duration_min": 155,
+     "actors": ["T. Chalamet", "R. Ferguson", "O. Isaac"]},
     {"title": "Kitchen Stories", "year": 2019, "genres": {"comedy", "drama"},
      "rating": 7.1, "duration_min": 98, "actors": ["A. Novak", "M. Ferguson"]},
     {"title": "silent hours", "year": 2016, "genres": {"thriller", "drama"},
@@ -31,7 +32,11 @@ def average_rating(movies: list[dict]) -> float:
 
 def catalog_age_stats(movies: list[dict], current_year=2026) -> tuple:
     """Get years data for provided movies"""
-    years = [current_year - movie["year"] for movie in movies if movie["year"] < current_year]
+    years = [
+        current_year - movie["year"]
+        for movie in movies
+        if movie["year"] < current_year
+    ]
     min_year = min(years)
     max_year = max(years)
     mean_year = math.ceil(round(sum(years) / len(years), 1))
@@ -62,20 +67,6 @@ def decade_label(year: int) -> str:
             return "недавние"
         case _:
             return "старые"
-
-for movie in movies:
-    if "comedy" not in movie["genres"]:
-        print(movie["title"])
-    continue
-
-i = 0
-while i < len(movies):
-    if movies[i]["rating"] >= 9:
-        print(movies[i]["title"])
-        break
-    i += 1
-else:
-    print("Шедевров не найдено")
 
 def count_long_movies(movies: list[dict], threshold = 120) -> int:
     """Count movies longer threshold"""
@@ -193,16 +184,35 @@ def iter_high_rated(movies: list[dict], min_rating=8.0):
             yield movie
 
 
-def main():
-    for movie in iter_high_rated(movies):
-        print(format_report_line(movie))
-
-    total_duration = sum(
-        movie["duration_min"]
-        for movie in movies
-        if movie["rating"] > 7
+def build_report(movies: list[dict]) -> None:
+    """Print catalog report"""
+    age_stats = catalog_age_stats(movies)
+    genres_count = count_by_genre(movies)
+    sorted_genres = sorted(
+        genres_count.items(),
+        key=lambda genre: genre[1],
+        reverse=True,
     )
-    print(total_duration)
+    genres = ", ".join(sorted(all_genres(movies)))
+
+    print("ОТЧЕТ ПО КАТАЛОГУ")
+    print(f"Средний рейтинг: {average_rating(movies)}")
+    print(f"Средний возраст фильмов: {age_stats[2]} лет")
+    print()
+    print("Топ-3 фильма:")
+    sorted_movies = sorted(movies, key=lambda movie: movie["rating"], reverse=True)
+    for movie in sorted_movies[:3]:
+        print(f"  {format_report_line(movie)}")
+    print()
+    print("Фильмов по жанрам:")
+    for genre, count in sorted_genres:
+        print(f"  {genre} — {count}")
+    print()
+    print(f"Все жанры каталога: {genres}")
+
+
+def main():
+    build_report(movies)
 
 
 if __name__ == "__main__":
