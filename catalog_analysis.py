@@ -162,6 +162,30 @@ def ratings_above_average(movies: list[dict]) -> dict:
     return ratings
 
 
+def all_genres(movies: list[dict]) -> set:
+    """Get all unique genres"""
+    genres = set()
+    for movie in movies:
+        genres = genres | movie["genres"]
+    return genres
+
+
+def common_actors(movie1: dict, movie2: dict) -> set:
+    """Get common actors"""
+    actors1 = set(movie1["actors"])
+    actors2 = set(movie2["actors"])
+    actors = actors1 & actors2
+    return actors
+
+
+def genres_only_in_one(movies_a: list[dict], movies_b: list[dict]) -> set:
+    """Get genres only in first movie list"""
+    genres_a = all_genres(movies_a)
+    genres_b = all_genres(movies_b)
+    genres = genres_a - genres_b
+    return genres
+
+
 def main():
     print("Hello from university!")
 
