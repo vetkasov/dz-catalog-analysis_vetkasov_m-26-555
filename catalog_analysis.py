@@ -43,16 +43,15 @@ def duration_in_hours(minutes: int) -> str:
     duration = f"{minutes // 60}ч {minutes % 60}м"
     return duration
 
+
 def rating_tier(rating: float) -> str:
     """Return movie category"""
     if rating >= 9:
         return "шедевр"
     elif rating >= 7:
         return "хорошо"
-    elif rating >= 5:
-        return "средне"
-    else:
-        return "слабо"
+    return "средне" if rating >= 5 else "слабо"
+
 
 def decade_label(year: int) -> str:
     """Return movie label"""
@@ -85,6 +84,52 @@ def count_long_movies(movies: list[dict], threshold = 120) -> int:
         if movie["duration_min"] > threshold:
             count += 1
     return count
+
+
+def normalize_title(title: str) -> str:
+    """Get title in title case"""
+    words = title.split()
+    normalized_words = []
+    for word in words:
+        normalized_words.append(word[0].upper() + word[1:])
+    return " ".join(normalized_words)
+
+
+def make_slug(title: str) -> str:
+    """Get slug from title"""
+    slug = title.lower().replace(" ", "-")
+    return slug
+
+
+def format_report_line(movie: dict) -> str:
+    """Get movie report line"""
+    title = normalize_title(movie["title"])
+    duration = duration_in_hours(movie["duration_min"])
+    genres = ", ".join(sorted(movie["genres"]))
+    report_line = (
+        f'"{title}" ({movie["year"]}) — '
+        f'{movie["rating"]}/10, {duration}, жанры: {genres}'
+    )
+    return report_line
+
+
+# def titles_sorted_by_rating(movies: list[dict]) -> list[str]:
+#     """Get movie titles sorted by rating"""
+#     sorted_movies = sorted(movies, key=lambda movie: movie["rating"], reverse=True)
+#     titles = []
+#     for movie in sorted_movies:
+#         titles.append(movie["title"])
+#     return titles
+
+
+# def top_n_by_rating(movies: list[dict], n=3) -> list[tuple]:
+#     """Get top movies by rating"""
+#     sorted_movies = sorted(movies, key=lambda movie: movie["rating"], reverse=True)
+#     top_movies = []
+#     for movie in sorted_movies[:n]:
+#         top_movies.append((movie["title"], movie["rating"]))
+#     return top_movies
+
 
 def main():
     print("Hello from university!")
