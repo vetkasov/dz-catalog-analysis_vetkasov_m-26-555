@@ -54,7 +54,7 @@ def rating_tier(rating: float) -> str:
     else:
         return "слабо"
 
-def dacade_label(year: int) -> str:
+def decade_label(year: int) -> str:
     """Return movie label"""
     match year:
         case _ if year >= 2020:
@@ -63,6 +63,28 @@ def dacade_label(year: int) -> str:
             return "недавние"
         case _:
             return "старые"
+
+for movie in movies:
+    if "comedy" not in movie["genres"]:
+        print(movie["title"])
+    continue
+
+i = 0
+while i < len(movies):
+    if movies[i]["rating"] >= 9:
+        print(movies[i]["title"])
+        break
+    i += 1
+else:
+    print("Шедевров не найдено")
+
+def count_long_movies(movies: list[dict], threshold = 120) -> int:
+    """Count movies longer threshold"""
+    count = 0
+    for movie in movies:
+        if movie["duration_min"] > threshold:
+            count += 1
+    return count
 
 def main():
     print("Hello from university!")
