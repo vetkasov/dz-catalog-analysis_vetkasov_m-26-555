@@ -186,8 +186,23 @@ def genres_only_in_one(movies_a: list[dict], movies_b: list[dict]) -> set:
     return genres
 
 
+def iter_high_rated(movies: list[dict], min_rating=8.0):
+    """Iterate high rated movies"""
+    for movie in movies:
+        if movie["rating"] >= min_rating:
+            yield movie
+
+
 def main():
-    print("Hello from university!")
+    for movie in iter_high_rated(movies):
+        print(format_report_line(movie))
+
+    total_duration = sum(
+        movie["duration_min"]
+        for movie in movies
+        if movie["rating"] > 7
+    )
+    print(total_duration)
 
 
 if __name__ == "__main__":
